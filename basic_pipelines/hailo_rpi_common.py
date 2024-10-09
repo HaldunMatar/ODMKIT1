@@ -471,7 +471,7 @@ class GStreamerApp:
             #     display_process.start()
 
             # Set pipeline to PLAYING state
-            self.pipeline.set_state(Gst.State.PLAYING)
+            # self.pipeline.set_state(Gst.State.PLAYING)
 
             # Dump dot file
             if self.options_menu.dump_dot:
