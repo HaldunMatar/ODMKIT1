@@ -476,7 +476,7 @@ class GStreamerApp:
         print('hailo_rpi_common: run  :5 ')    
 
         # Set pipeline to PLAYING state
-        # self.pipeline.set_state(Gst.State.PLAYING)
+        self.pipeline.set_state(Gst.State.PLAYING)
         print('hailo_rpi_common: run  :6 ')  
 
         # Dump dot file
@@ -486,7 +486,12 @@ class GStreamerApp:
         print('hailo_rpi_common: run  :8 ')  
         # Run the GLib event loop
         print("Ma  before self.loop.run ")
-        self.loop.run()
+        try:
+            self.loop.run()
+        except Exception as e : 
+                print("Ma  after self.loop.run Exception  " ,e)
+                
+        
         print("Ma  after self.loop.run ")
 
         # Clean up
