@@ -80,4 +80,4 @@ if __name__ == "__main__":
     # Create an instance of the user app callback class
     user_data = user_app_callback_class()
     app = GStreamerDetectionApp(app_callback, user_data)
-    # app.run()
+    app.run()

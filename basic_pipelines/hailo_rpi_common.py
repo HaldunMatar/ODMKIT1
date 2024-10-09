@@ -454,12 +454,12 @@ class GStreamerApp:
             identity_pad.add_probe(Gst.PadProbeType.BUFFER, self.app_callback, self.user_data)
 
         hailo_display = self.pipeline.get_by_name("hailo_display")
-        if hailo_display is None:
-            print("Warning: hailo_display element not found, add <fpsdisplaysink name=hailo_display> to your pipeline to support fps display.")
-        else:
-            xvimagesink = hailo_display.get_by_name("xvimagesink0")
-            if xvimagesink is not None:
-                xvimagesink.set_property("qos", False)
+        # if hailo_display is None:
+        #     print("Warning: hailo_display element not found, add <fpsdisplaysink name=hailo_display> to your pipeline to support fps display.")
+        # else:
+        #     xvimagesink = hailo_display.get_by_name("xvimagesink0")
+        #     if xvimagesink is not None:
+        #         xvimagesink.set_property("qos", False)
 
         # Disable QoS to prevent frame drops
         disable_qos(self.pipeline)
@@ -470,7 +470,7 @@ class GStreamerApp:
         #     display_process.start()
 
         # Set pipeline to PLAYING state
-        self.pipeline.set_state(Gst.State.PLAYING)
+        # self.pipeline.set_state(Gst.State.PLAYING)
 
         # Dump dot file
         if self.options_menu.dump_dot:
@@ -482,9 +482,9 @@ class GStreamerApp:
         # Clean up
         self.user_data.running = False
         self.pipeline.set_state(Gst.State.NULL)
-        if self.options_menu.use_frame:
-            display_process.terminate()
-            display_process.join()
+        # if self.options_menu.use_frame:
+        #     display_process.terminate()
+        #     display_process.join()
 
 # ---------------------------------------------------------
 # Functions used to get numpy arrays from GStreamer buffers
