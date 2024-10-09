@@ -30,32 +30,37 @@ class user_app_callback_class(app_callback_class):
 
 # This is the callback function that will be called when data is available from the pipeline
 def app_callback(pad, info, user_data):
-    print("Ma : app_callback")
+    print("Ma : app_callback1")
     # Get the GstBuffer from the probe info
     buffer = info.get_buffer()
+    print("Ma : app_callback2")
     # Check if the buffer is valid
     if buffer is None:
         return Gst.PadProbeReturn.OK
-
+    print("Ma : app_callback3")
     # Using the user_data to count the number of frames
     user_data.increment()
+    print("Ma : app_callback4")
     string_to_print = f"Frame count: {user_data.get_count()}\n"
-
+    print("Ma : app_callback5")
     # Get the caps from the pad
     format, width, height = get_caps_from_pad(pad)
-
+    print("Ma : app_callback6")
     # If the user_data.use_frame is set to True, we can get the video frame from the buffer
     frame = None
+    print("Ma : app_callback7")
     if user_data.use_frame and format is not None and width is not None and height is not None:
         # Get video frame
         frame = get_numpy_from_buffer(buffer, format, width, height)
-
+    print("Ma : app_callback8")
     # Get the detections from the buffer
     roi = hailo.get_roi_from_buffer(buffer)
+    print("Ma : app_callback9")
     detections = roi.get_objects_typed(hailo.HAILO_DETECTION)
-
+    print("Ma : app_callback10")
     # Parse the detections
     detection_count = 0
+    print("Ma : app_callback11")
     for detection in detections:
         label = detection.get_label()
         bbox = detection.get_bbox()
@@ -63,6 +68,7 @@ def app_callback(pad, info, user_data):
         if label == "person":
             string_to_print += f"Detection: {label} {confidence:.2f}\n"
             detection_count += 1
+    print("Ma : app_callback12")        
     if user_data.use_frame:
         # Note: using imshow will not work here, as the callback function is not running in the main thread
         # Let's print the detection count to the frame
@@ -73,6 +79,7 @@ def app_callback(pad, info, user_data):
         # Convert the frame to BGR
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         user_data.set_frame(frame)
+    print("Ma : app_callback12")         
 
     print(string_to_print)
     return Gst.PadProbeReturn.OK
