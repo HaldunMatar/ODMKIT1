@@ -465,9 +465,9 @@ class GStreamerApp:
         disable_qos(self.pipeline)
 
         # Start a subprocess to run the display_user_data_frame function
-        if self.options_menu.use_frame:
-            display_process = multiprocessing.Process(target=display_user_data_frame, args=(self.user_data,))
-            display_process.start()
+        # if self.options_menu.use_frame:
+        #     display_process = multiprocessing.Process(target=display_user_data_frame, args=(self.user_data,))
+        #     display_process.start()
 
         # Set pipeline to PLAYING state
         self.pipeline.set_state(Gst.State.PLAYING)
