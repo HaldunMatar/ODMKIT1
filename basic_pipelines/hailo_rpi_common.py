@@ -477,7 +477,9 @@ class GStreamerApp:
             GLib.timeout_add_seconds(3, self.dump_dot_file)
 
         # Run the GLib event loop
+        print("Ma  before self.loop.run ")
         self.loop.run()
+        print("Ma  after self.loop.run ")
 
         # Clean up
         self.user_data.running = False
