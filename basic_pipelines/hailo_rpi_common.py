@@ -276,7 +276,7 @@ def INFERENCE_PIPELINE_WRAPPER(inner_pipeline, bypass_max_size_buffers=20, name=
 
     return inference_wrapper_pipeline
 
-def DISPLAY_PIPELINE(video_sink='xvimagesink', sync='true', show_fps='false', name='hailo_display'):
+def DISPLAY_PIPELINE(video_sink='fakesink', sync='true', show_fps='false', name='hailo_display'):
     """
     Creates a GStreamer pipeline string for displaying the video.
     It includes the hailooverlay plugin to draw bounding boxes and labels on the video.
