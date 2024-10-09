@@ -476,7 +476,7 @@ class GStreamerApp:
         print('hailo_rpi_common: run  :5 ')    
 
         # Set pipeline to PLAYING state
-        self.pipeline.set_state(Gst.State.PLAYING)
+        # self.pipeline.set_state(Gst.State.PLAYING)
         print('hailo_rpi_common: run  :6 ')  
 
         # Dump dot file
