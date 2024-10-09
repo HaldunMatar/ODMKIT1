@@ -450,32 +450,40 @@ class GStreamerApp:
         if identity is None:
             print("Warning: identity_callback element not found, add <identity name=identity_callback> in your pipeline where you want the callback to be called.")
         else:
+            print('hailo_rpi_common: run  : use self.app_callback')
             identity_pad = identity.get_static_pad("src")
             identity_pad.add_probe(Gst.PadProbeType.BUFFER, self.app_callback, self.user_data)
 
         hailo_display = self.pipeline.get_by_name("hailo_display")
+        print('hailo_rpi_common: run  :1 ')
         if hailo_display is None:
             print("Warning: hailo_display element not found, add <fpsdisplaysink name=hailo_display> to your pipeline to support fps display.")
         else:
+            print('hailo_rpi_common: run  :2 ')
             xvimagesink = hailo_display.get_by_name("xvimagesink0")
             if xvimagesink is not None:
                 xvimagesink.set_property("qos", False)
+        print('hailo_rpi_common: run  :3 ')        
 
         # Disable QoS to prevent frame drops
         disable_qos(self.pipeline)
-
+        print('hailo_rpi_common: run  :4 ')
         # Start a subprocess to run the display_user_data_frame function
         if self.options_menu.use_frame:
+            print('hailo_rpi_common: run  :5 ')
             display_process = multiprocessing.Process(target=display_user_data_frame, args=(self.user_data,))
             display_process.start()
+        print('hailo_rpi_common: run  :5 ')    
 
         # Set pipeline to PLAYING state
         self.pipeline.set_state(Gst.State.PLAYING)
+        print('hailo_rpi_common: run  :6 ')  
 
         # Dump dot file
         if self.options_menu.dump_dot:
+            print('hailo_rpi_common: run  :7 ')  
             GLib.timeout_add_seconds(3, self.dump_dot_file)
-
+        print('hailo_rpi_common: run  :8 ')  
         # Run the GLib event loop
         print("Ma  before self.loop.run ")
         self.loop.run()
