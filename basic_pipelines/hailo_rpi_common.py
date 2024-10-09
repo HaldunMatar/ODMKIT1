@@ -440,51 +440,57 @@ class GStreamerApp:
         return False
 
     def run(self):
-        # Add a watch for messages on the pipeline's bus
-        bus = self.pipeline.get_bus()
-        bus.add_signal_watch()
-        bus.connect("message", self.bus_call, self.loop)
+        try:
+            # Add a watch for messages on the pipeline's bus
+            bus = self.pipeline.get_bus()
+            bus.add_signal_watch()
+            bus.connect("message", self.bus_call, self.loop)
 
-        # Connect pad probe to the identity element
-        identity = self.pipeline.get_by_name("identity_callback")
-        if identity is None:
-            print("Warning: identity_callback element not found, add <identity name=identity_callback> in your pipeline where you want the callback to be called.")
-        else:
-            identity_pad = identity.get_static_pad("src")
-            identity_pad.add_probe(Gst.PadProbeType.BUFFER, self.app_callback, self.user_data)
+            # Connect pad probe to the identity element
+            identity = self.pipeline.get_by_name("identity_callback")
+            if identity is None:
+                print("Warning: identity_callback element not found, add <identity name=identity_callback> in your pipeline where you want the callback to be called.")
+            else:
+                identity_pad = identity.get_static_pad("src")
+                identity_pad.add_probe(Gst.PadProbeType.BUFFER, self.app_callback, self.user_data)
 
-        # hailo_display = self.pipeline.get_by_name("hailo_display")
-        # if hailo_display is None:
-        #     print("Warning: hailo_display element not found, add <fpsdisplaysink name=hailo_display> to your pipeline to support fps display.")
-        # else:
-        #     xvimagesink = hailo_display.get_by_name("xvimagesink0")
-        #     if xvimagesink is not None:
-        #         xvimagesink.set_property("qos", False)
+            # hailo_display = self.pipeline.get_by_name("hailo_display")
+            # if hailo_display is None:
+            #     print("Warning: hailo_display element not found, add <fpsdisplaysink name=hailo_display> to your pipeline to support fps display.")
+            # else:
+            #     xvimagesink = hailo_display.get_by_name("xvimagesink0")
+            #     if xvimagesink is not None:
+            #         xvimagesink.set_property("qos", False)
 
-        # Disable QoS to prevent frame drops
-        disable_qos(self.pipeline)
+            # Disable QoS to prevent frame drops
+            disable_qos(self.pipeline)
 
-        # Start a subprocess to run the display_user_data_frame function
-        # if self.options_menu.use_frame:
-        #     display_process = multiprocessing.Process(target=display_user_data_frame, args=(self.user_data,))
-        #     display_process.start()
+            # Start a subprocess to run the display_user_data_frame function
+            # if self.options_menu.use_frame:
+            #     display_process = multiprocessing.Process(target=display_user_data_frame, args=(self.user_data,))
+            #     display_process.start()
 
-        # Set pipeline to PLAYING state
-        self.pipeline.set_state(Gst.State.PLAYING)
+            # Set pipeline to PLAYING state
+            self.pipeline.set_state(Gst.State.PLAYING)
 
-        # Dump dot file
-        if self.options_menu.dump_dot:
-            GLib.timeout_add_seconds(3, self.dump_dot_file)
+            # Dump dot file
+            if self.options_menu.dump_dot:
+                GLib.timeout_add_seconds(3, self.dump_dot_file)
 
-        # Run the GLib event loop
-        self.loop.run()
+            # Run the GLib event loop
+            self.loop.run()
 
-        # Clean up
-        self.user_data.running = False
-        self.pipeline.set_state(Gst.State.NULL)
-        # if self.options_menu.use_frame:
-            # display_process.terminate()
-            # display_process.join()
+            # Clean up
+            self.user_data.running = False
+            self.pipeline.set_state(Gst.State.NULL)
+            # if self.options_menu.use_frame:
+                # display_process.terminate()
+                # display_process.join()
+        except Exception as e: 
+            print( 'Ma error' ,e)
+            
+            
+              
 
 # ---------------------------------------------------------
 # Functions used to get numpy arrays from GStreamer buffers
