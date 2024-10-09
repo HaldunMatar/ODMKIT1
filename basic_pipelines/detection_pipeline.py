@@ -96,8 +96,9 @@ class GStreamerDetectionApp(GStreamerApp):
             f'{source_pipeline} '
             f'{detection_pipeline} ! '
             f'{user_callback_pipeline} ! '
-            f'{display_pipeline}'
+            # f'{display_pipeline}'
         )
+        print(pipeline_string)
         print(pipeline_string)
         return pipeline_string
 
