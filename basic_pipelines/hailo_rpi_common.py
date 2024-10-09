@@ -343,7 +343,7 @@ class GStreamerApp:
         self.video_source = self.options_menu.input
         self.source_type = get_source_type(self.video_source)
         self.user_data = user_data
-        self.video_sink = "xvimagesink"
+        self.video_sink = "fakesink"
         self.pipeline = None
         self.loop = None
 
@@ -476,7 +476,7 @@ class GStreamerApp:
         print('hailo_rpi_common: run  :5 ')    
 
         # Set pipeline to PLAYING state
-        # self.pipeline.set_state(Gst.State.PLAYING)
+        self.pipeline.set_state(Gst.State.PLAYING)
         print('hailo_rpi_common: run  :6 ')  
 
         # Dump dot file

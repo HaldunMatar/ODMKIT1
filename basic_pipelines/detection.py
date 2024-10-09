@@ -3,7 +3,6 @@ gi.require_version('Gst', '1.0')
 from gi.repository import Gst, GLib
 import os
 import numpy as np
-
 import cv2
 import hailo
 from hailo_rpi_common import (
@@ -87,17 +86,6 @@ def app_callback(pad, info, user_data):
 
 if __name__ == "__main__":
     # Create an instance of the user app callback class
-    # user_data = user_app_callback_class()
-    # app = GStreamerDetectionApp(app_callback, user_data)
-    # app.run()
-    print('__main__ 1 ')
-    cap = cv2.VideoCapture("speed3.mp4")
-    print('__main__ 2 ')
-    # buffer = info.get_buffer()
-    success, frame = cap.read()  
-    print('__main__ 3 ')
-    roi = hailo.get_roi_from_buffer(frame)
-    print('__main__ 4 ')
-    detections = roi.get_objects_typed(hailo.HAILO_DETECTION)
-    print('__main__ 5 ')
-    
+    user_data = user_app_callback_class()
+    app = GStreamerDetectionApp(app_callback, user_data)
+    app.run()
